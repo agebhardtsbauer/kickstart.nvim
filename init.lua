@@ -280,6 +280,43 @@ require('lazy').setup({
     },
   },
 
+  -- eyeliner install, Currently trying hop instead
+  -- {
+  --   'jinh0/eyeliner.nvim',
+  --   config = function()
+  --     require('eyeliner').setup {
+  --       highlight_on_key = true, -- show highlights only after keypress
+  --       dim = false, -- dim all other characters if set to true (recommended!)
+  --     }
+  --   end,
+  -- },
+
+  -- Hop Install
+  {
+    'phaazon/hop.nvim',
+    branch = 'v2', -- optional but strongly recommended
+    config = function()
+      -- you can configure Hop the way you like here; see :h hop-config
+      require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
+
+      -- Configuration options for Hop
+      local hop = require 'hop'
+      local directions = require('hop.hint').HintDirection
+      vim.keymap.set('', 'f', function()
+        hop.hint_words { current_line_only = false }
+      end, { remap = true })
+      -- vim.keymap.set('', 'F', function()
+      --   hop.hint_char1 { direction = directions.BEFORE_CURSOR, current_line_only = true }
+      -- end, { remap = true })
+      -- vim.keymap.set('', 't', function()
+      --   hop.hint_char1 { direction = directions.AFTER_CURSOR, current_line_only = true, hint_offset = -1 }
+      -- end, { remap = true })
+      -- vim.keymap.set('', 'T', function()
+      --   hop.hint_char1 { direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 }
+      -- end, { remap = true })
+    end,
+  },
+
   -- Commandline line cmdline noice folke
   {
     'folke/noice.nvim',
@@ -532,7 +569,7 @@ require('lazy').setup({
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
-          map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+          map('<leadnr>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
