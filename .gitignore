@@ -4,4 +4,6 @@ test.sh
 nvim
 
 spell/
-lazy-lock.json
+
+# this is recommended to be uncommented by kickstart - not sure if it will mess with my centene config
+# lazy-lock.json

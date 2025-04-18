@@ -83,6 +83,12 @@ I hope you enjoy your Neovim journey,
 
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
+--Neovide Font
+vim.o.guifont = 'JetBrainsMono Nerd Font Mono:h19'
+
+-- disable netrw Netrw in favor of neo-tree
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
@@ -174,6 +180,9 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
+vim.keymap.set('n', '<leader>cr', '<cmd>:cd ~/repos/<CR>', { desc = 'Change dir to [r]epo' })
+vim.keymap.set('n', '<leader>cn', '<cmd>:cd ~/.config/nvim/<CR>', { desc = 'Change dir to [n]vim config' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -291,29 +300,62 @@ require('lazy').setup({
   --   end,
   -- },
 
-  -- Hop Install
+  -- Hop Install (Old, See Next Block for New Version)
+  -- {
+  --   'phaazon/hop.nvim',
+  --   branch = 'v2', -- optional but strongly recommended
+  --   config = function()
+  --     -- you can configure Hop the way you like here; see :h hop-config
+  --     require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
+  --
+  --     -- Configuration options for Hop
+  --     local hop = require 'hop'
+  --     local directions = require('hop.hint').HintDirection
+  --     vim.keymap.set('', 'f', function()
+  --       hop.hint_words { current_line_only = false }
+  --     end, { remap = true })
+  --     -- vim.keymap.set('', 'F', function()
+  --     --   hop.hint_char1 { direction = directions.BEFORE_CURSOR, current_line_only = true }
+  --     -- end, { remap = true })
+  --     -- vim.keymap.set('', 't', function()
+  --     --   hop.hint_char1 { direction = directions.AFTER_CURSOR, current_line_only = true, hint_offset = -1 }
+  --     -- end, { remap = true })
+  --     -- vim.keymap.set('', 'T', function()
+  --     --   hop.hint_char1 { direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 }
+  --     -- end, { remap = true })
+  --   end,
+  -- },
+  --
+  -- Hop Install (New Version)
   {
-    'phaazon/hop.nvim',
-    branch = 'v2', -- optional but strongly recommended
+    'smoka7/hop.nvim',
+    version = '*',
     config = function()
-      -- you can configure Hop the way you like here; see :h hop-config
       require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
-
-      -- Configuration options for Hop
       local hop = require 'hop'
       local directions = require('hop.hint').HintDirection
-      vim.keymap.set('', 'f', function()
-        hop.hint_words { current_line_only = false }
+      -- vim.keymap.set('', 'f', function()
+      --   hop.hint_words { current_line_only = false }
+      -- end, { remap = true })
+
+      vim.keymap.set('', 'ff', function()
+        hop.hint_words { direction = directions.AFTER_CURSOR, current_line_only = false }
       end, { remap = true })
-      -- vim.keymap.set('', 'F', function()
-      --   hop.hint_char1 { direction = directions.BEFORE_CURSOR, current_line_only = true }
-      -- end, { remap = true })
-      -- vim.keymap.set('', 't', function()
-      --   hop.hint_char1 { direction = directions.AFTER_CURSOR, current_line_only = true, hint_offset = -1 }
-      -- end, { remap = true })
-      -- vim.keymap.set('', 'T', function()
-      --   hop.hint_char1 { direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 }
-      -- end, { remap = true })
+      vim.keymap.set('', 'fb', function()
+        hop.hint_words { direction = directions.BEFORE_CURSOR, current_line_only = false }
+      end, { remap = true })
+      vim.keymap.set('', 'FI', function()
+        hop.hint_lines { direction = directions.BEFORE_CURSOR, current_line_only = false }
+      end, { remap = true })
+      vim.keymap.set('', 'FK', function()
+        hop.hint_lines { direction = directions.AFTER_CURSOR, current_line_only = false }
+      end, { remap = true })
+      vim.keymap.set('', 't', function()
+        hop.hint_char1 { direction = directions.AFTER_CURSOR, current_line_only = true, hint_offset = -1 }
+      end, { remap = true })
+      vim.keymap.set('', 'T', function()
+        hop.hint_char1 { direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 }
+      end, { remap = true })
     end,
   },
 
@@ -323,6 +365,9 @@ require('lazy').setup({
     event = 'VeryLazy',
     opts = {
       -- add any options here
+      presets = {
+        command_palette = true, -- position the cmdline and popupmenu together
+      },
     },
     dependencies = {
       -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
@@ -531,6 +576,7 @@ require('lazy').setup({
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
       --    function will be executed to configure the current buffer
       vim.api.nvim_create_autocmd('LspAttach', {
+
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
           -- NOTE: Remember that Lua is a real programming language, and as such it is possible
@@ -695,6 +741,11 @@ require('lazy').setup({
             -- certain features of an LSP (for example, turning off formatting for tsserver)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
+            require('lspconfig').gleam.setup {
+              cmd = { 'gleam', 'lsp' },
+              filetypes = { 'gleam' },
+              capabilities = capabilities,
+            }
           end,
         },
       }
@@ -715,7 +766,7 @@ require('lazy').setup({
       },
     },
     opts = {
-      notify_on_error = false,
+      notify_on_error = true,
       format_on_save = function(bufnr)
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
@@ -733,7 +784,7 @@ require('lazy').setup({
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        -- javascript = { { "prettierd", "prettier" } },
+        javascript = { { 'prettierd', 'prettier' } },
       },
     },
   },
@@ -849,21 +900,46 @@ require('lazy').setup({
     end,
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+  --COLOR THEMES
+  -- { -- You can easily change to a different colorscheme.
+  --   -- Change the name of the colorscheme plugin below, and then
+  --   -- change the command in the config to whatever the name of that colorscheme is.
+  --   --
+  --   -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  --   'folke/tokyonight.nvim',
+  --   priority = 900, -- Make sure to load this before all the other start plugins.
+  --   init = function()
+  --     -- Load the colorscheme here.
+  --     -- Like many other themes, this one has different styles, and you could load
+  --     -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+  --     vim.cmd.colorscheme 'tokyonight-night'
+  --
+  --     -- You can configure highlights by doing something like:
+  --     vim.cmd.hi 'Comment gui=none'
+  --   end,
+  -- },
 
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000,
+    init = function()
+      vim.cmd.colorscheme 'catppuccin'
+    end,
+    config = function()
+      require('catppuccin').setup {
+        flavour = 'mocha', -- latte, frappe, macchiato, mocha
+        styles = {},
+        color_overrides = {
+          mocha = {
+            -- base = '#10101b',
+            -- mantle = '#090909',
+            base = '#090913',
+            mantle = '#10101c',
+            crust = '#1e1e2e',
+          },
+        },
+      }
     end,
   },
 
@@ -953,8 +1029,11 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.neo-tree', -- NOTE: NEOTREE CONFIG is in ./lua/kickstart/plugins/neo-tree.lua
+
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+
+  --flash
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
@@ -983,6 +1062,5 @@ require('lazy').setup({
     },
   },
 })
-
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
