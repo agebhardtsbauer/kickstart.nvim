@@ -18,10 +18,10 @@ TODO: Further modularize plugins into separate files.
 --]]
 
 -- Load core configuration modules
-require('config.options')
-require('config.keymaps')
-require('config.autocommands')
-require('config.lazy-setup')
+require 'config.options'
+require 'config.keymaps'
+require 'config.autocommands'
+require 'config.lazy-setup'
 
 -- [[ Configure and install plugins ]]
 --
@@ -96,7 +96,19 @@ require('lazy').setup({
     'folke/flash.nvim',
     event = 'VeryLazy',
     ---@type Flash.Config
-    opts = {},
+    opts = {
+      modes = {
+        char = {
+          keys = { 'f', 'F', 't', 'T', ';', ',' },
+          jump_labels = true,
+        },
+      },
+      -- Proper escape handling for Flash
+      prompt = {
+        enabled = true,
+        prefix = { { '⚡', 'FlashPromptIcon' } },
+      },
+    },
     keys = {
       {
         's',
@@ -759,16 +771,39 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     opts = {
-      ensure_installed = { 
-        'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc',
+      ensure_installed = {
+        'bash',
+        'c',
+        'diff',
+        'html',
+        'lua',
+        'luadoc',
+        'markdown',
+        'vim',
+        'vimdoc',
         -- Web development
-        'javascript', 'typescript', 'tsx', 'css', 'scss', 'json', 'yaml',
+        'javascript',
+        'typescript',
+        'tsx',
+        'css',
+        'scss',
+        'json',
+        'yaml',
         -- Systems programming
-        'rust', 'go', 'python', 'java', 'cpp',
+        'rust',
+        'go',
+        'python',
+        'java',
+        'cpp',
         -- DevOps/Config
-        'dockerfile', 'toml', 'sql', 'regex',
+        'dockerfile',
+        'toml',
+        'sql',
+        'regex',
         -- Others
-        'git_config', 'gitignore', 'comment'
+        'git_config',
+        'gitignore',
+        'comment',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
@@ -780,7 +815,7 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
-      
+
       -- Incremental selection based on the named nodes from the grammar.
       incremental_selection = {
         enable = true,
@@ -791,7 +826,7 @@ require('lazy').setup({
           node_decremental = '<bs>',
         },
       },
-      
+
       -- Textobjects for better code navigation
       textobjects = {
         select = {
@@ -928,3 +963,4 @@ require('lazy').setup({
     },
   },
 })
+
