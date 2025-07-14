@@ -52,6 +52,8 @@ require('lazy').setup({
     cmd = 'Copilot',
     event = 'InsertEnter',
     config = function()
+      -- VPN
+      -- vim.g.copilot_proxy = 'http://12.0.0.1:9000'
       require('copilot').setup {
         suggestion = {
           enabled = true,
@@ -59,7 +61,7 @@ require('lazy').setup({
           hide_during_completion = true,
           debounce = 75,
           keymap = {
-            accept = '<C-y>',
+            accept = '<C-j>',
             accept_word = false,
             accept_line = false,
             next = '<M-]>',
@@ -585,6 +587,14 @@ require('lazy').setup({
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
         javascript = { { 'prettierd', 'prettier' } },
+        javascriptreact = { { 'prettierd', 'prettier' } },
+        typescript = { { 'prettierd', 'prettier' } },
+        typescriptreact = { { 'prettierd', 'prettier' } },
+        json = { { 'prettierd', 'prettier' } },
+        yaml = { { 'prettierd', 'prettier' } },
+        markdown = { { 'prettierd', 'prettier' } },
+        html = { { 'prettierd', 'prettier' } },
+        css = { { 'prettierd', 'prettier' } },
       },
     },
   },
@@ -652,11 +662,12 @@ require('lazy').setup({
           -- Scroll the documentation window [b]ack / [f]orward
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-j>'] = cmp.mapping.close(),
 
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          -- ['<C-y>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
@@ -963,4 +974,3 @@ require('lazy').setup({
     },
   },
 })
-
