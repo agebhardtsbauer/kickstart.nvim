@@ -53,7 +53,7 @@ require('lazy').setup({
     event = 'InsertEnter',
     config = function()
       -- VPN
-      -- vim.g.copilot_proxy = 'http://12.0.0.1:9000'
+      -- vim.g.copilot_proxy = 'http://127.0.0.1:9000'
       require('copilot').setup {
         suggestion = {
           enabled = true,
@@ -197,24 +197,23 @@ require('lazy').setup({
 
       -- Enhanced keybinding organization
       require('which-key').register {
-        ['<leader>b'] = { name = '󰓩 [B]uffer', _ = 'which_key_ignore' },
-        ['<leader>c'] = { name = '󰘦 [C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '󰈙 [D]ocument', _ = 'which_key_ignore' },
-        ['<leader>f'] = { name = '󰈞 [F]ile', _ = 'which_key_ignore' },
-        ['<leader>g'] = { name = '󰊢 [G]it', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-        ['<leader>o'] = { name = '󰏌 [O]pen', _ = 'which_key_ignore' },
-        ['<leader>p'] = { name = '󰏖 [P]roject', _ = 'which_key_ignore' },
+        ['<leader>b'] = { name = '[B]uffer', _ = 'which_key_ignore' },
+        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+        ['<leader>f'] = { name = '[F]ile', _ = 'which_key_ignore' },
+        ['<leader>g'] = { name = '[g]it', _ = 'which_key_ignore' },
+        ['<leader>gh'] = { name = 'Git [h]unk', _ = 'which_key_ignore' },
+        ['<leader>o'] = { name = '[O]pen', _ = 'which_key_ignore' },
         ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '󰍉 [S]earch', _ = 'which_key_ignore' },
+        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
         ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>u'] = { name = '󰔡 [U]I', _ = 'which_key_ignore' },
+        ['<leader>u'] = { name = '[U]I', _ = 'which_key_ignore' },
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>x'] = { name = '󰔫 [X] Diagnostics', _ = 'which_key_ignore' },
+        ['<leader>x'] = { name = '[X] Diagnostics', _ = 'which_key_ignore' },
       }
       -- visual mode
       require('which-key').register({
-        ['<leader>h'] = { 'Git [H]unk' },
+        ['<leader>gh'] = { 'Git [h]unk' },
       }, { mode = 'v' })
     end,
   },
@@ -559,12 +558,12 @@ require('lazy').setup({
     lazy = false,
     keys = {
       {
-        '<leader>f',
+        '<leader>fo',
         function()
           require('conform').format { async = true, lsp_fallback = true }
         end,
         mode = '',
-        desc = '[F]ormat buffer',
+        desc = 'F[o]rmat buffer',
       },
     },
     opts = {
@@ -897,17 +896,18 @@ require('lazy').setup({
             ['[L'] = '@loop.outer',
           },
         },
-        swap = {
-          enable = true,
-          swap_next = {
-            ['<leader>a'] = '@parameter.inner',
-            ['<leader>f'] = '@function.outer',
-          },
-          swap_previous = {
-            ['<leader>A'] = '@parameter.inner',
-            ['<leader>F'] = '@function.outer',
-          },
-        },
+        -- TODO don't know if I want to enable swapping
+        -- swap = {
+        --   enable = true,
+        --   swap_next = {
+        --     ['<leader>a'] = '@parameter.inner',
+        --     ['<leader>f'] = '@function.outer',
+        --   },
+        --   swap_previous = {
+        --     ['<leader>A'] = '@parameter.inner',
+        --     ['<leader>F'] = '@function.outer',
+        --   },
+        -- },
       },
     },
     config = function(_, opts)
