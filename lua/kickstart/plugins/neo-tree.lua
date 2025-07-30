@@ -11,13 +11,32 @@ return {
   },
   cmd = 'Neotree',
   keys = {
-    { '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
+    { '<leader>nr', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
   },
   opts = {
     filesystem = {
       window = {
         mappings = {
-          ['\\'] = 'close_window',
+          -- \\  switch window
+          -- ['\\'] = 'focus',
+          -- ['\\'] = 'focus_preview',
+          ['<space>'] = '',
+          -- ['<cr>'] = 'open',
+          -- ['<c-x>'] = 'open_split',
+          -- ['<c-v>'] = 'open_vsplit',
+          -- ['<c-t>'] = 'open_tabnew',
+          -- ['<c-c>'] = 'close_node',
+          -- ['<bs>'] = 'navigate_up',
+          -- ['<tab>'] = 'next_source',
+          -- ['<s-tab>'] = 'prev_source',
+          -- ['\\'] = 'close_window',
+          -- [] = '
+          -- ['<enter>'] = 'open',
+          -- ['<cr>'] = 'open',
+          -- ['<c-x>'] = 'open_split',
+          -- ['<c-v>'] = 'open_vsplit',
+          -- ['<c-t>'] = 'open_tabnew',
+          -- ['<c-c>'] = 'close_window',
         },
       },
     },
