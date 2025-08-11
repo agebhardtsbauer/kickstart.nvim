@@ -562,6 +562,16 @@ require('lazy').setup({
         -- tsserver = {},
         --
 
+        -- Cucumber LSP
+        cucumber_language_server = {
+          settings = {
+            cucumber = {
+              features = '**/*.feature',
+              glue = '**/*steps*/**/*.js',
+            },
+          },
+        },
+
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},

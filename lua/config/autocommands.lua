@@ -11,3 +11,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+-- Cucumber/Gherkin file type detection
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  desc = 'Set filetype for Cucumber files',
+  pattern = { '*.feature' },
+  callback = function()
+    vim.bo.filetype = 'cucumber'
+  end,
+})
