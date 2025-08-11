@@ -564,12 +564,19 @@ require('lazy').setup({
 
         -- Cucumber LSP
         cucumber_language_server = {
+          cmd = { 'cucumber-language-server', '--stdio' },
+          filetypes = { 'cucumber' },
+          root_dir = function(fname)
+            return require('lspconfig.util').find_git_ancestor(fname) or vim.fn.getcwd()
+          end,
           settings = {
             cucumber = {
               features = '**/*.feature',
               glue = '**/*steps*/**/*.js',
             },
           },
+          -- Explicitly set position encoding to avoid warnings
+          offset_encoding = 'utf-8',
         },
 
         lua_ls = {
